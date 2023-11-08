@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using TodoList.Common.Auth;
+using TodoList.WebAPI.Auth;
 using TodoList.WebAPI.Extensions;
 
 namespace TodoList.WebAPI
@@ -18,6 +19,9 @@ namespace TodoList.WebAPI
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAuthentication()
+               .AddScheme<AuthenticationSchemeOptions, BasicAuthHandler>(BasicAuthDefaults.AuthenticationScheme, null);
 
             var app = builder.Build();
 
