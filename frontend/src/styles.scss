@@ -1,1 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+ul li {
+    list-style: none;
+}
+
+ul,
+p {
+    padding: 0;
+    margin: 0;
+}

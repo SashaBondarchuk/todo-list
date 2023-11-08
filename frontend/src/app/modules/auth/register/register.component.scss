@@ -1,0 +1,63 @@
+:host ::ng-deep {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 20px;
+}
+
+.form-container {
+    width: 600px;
+    height: 500px;
+    justify-content: center;
+    gap: 10px;
+    background: #e2e2e2;
+}
+
+form {
+    min-width: 300px;
+}
+
+.mat-form-field {
+    width: 100%;
+    min-width: 400px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+}
+
+.error {
+    padding-bottom: 16px;
+    width: 300px;
+    color: rgb(255, 0, 0);
+}
+
+.button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button {
+    background-color: rgb(187, 187, 187);
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.signup-link span {
+    color: rgb(0, 162, 255);
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}
