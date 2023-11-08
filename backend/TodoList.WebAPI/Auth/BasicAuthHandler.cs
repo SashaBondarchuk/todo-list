@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using TodoList.Common.Auth;
+using TodoList.Common.Auth.Abstractions;
 using TodoList.Common.Auth.Helpers;
 using TodoList.DAL.Context;
 
@@ -13,15 +14,18 @@ namespace TodoList.WebAPI.Auth
     public class BasicAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly TodoListDbContext _context;
+        private readonly IUserIdSetter _userIdSetter;
 
         public BasicAuthHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            TodoListDbContext dbContext) : base(options, logger, encoder, clock)
+            TodoListDbContext dbContext,
+            IUserIdSetter userIdSetter) : base(options, logger, encoder, clock)
         {
             _context = dbContext;
+            _userIdSetter = userIdSetter;
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -61,6 +65,7 @@ namespace TodoList.WebAPI.Auth
                 return AuthenticateResult.Fail(BasicAuthDefaults.InvalidPasswordMessage);
             }
 
+            _userIdSetter.SetUserId(user.Id);
             var client = new BasicAuthClient()
             {
                 AuthenticationType = BasicAuthDefaults.AuthenticationScheme,

@@ -14,7 +14,7 @@ namespace TodoList.WebAPI
             builder.Services.AddControllers();
 
             builder.Services.AddTodoListContext(builder.Configuration);
-            builder.Services.RegisterCustomServices(builder.Configuration);
+            builder.Services.RegisterCustomServices();
             builder.Services.AddAutoMapper();
 
             builder.Services.AddEndpointsApiExplorer();
@@ -30,6 +30,11 @@ namespace TodoList.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors(opt => opt
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
 
             app.UseHttpsRedirection();
 
