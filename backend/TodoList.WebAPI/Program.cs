@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
+using TodoList.Common.Auth;
+using TodoList.WebAPI.Extensions;
 
 namespace TodoList.WebAPI
 {
@@ -8,6 +11,10 @@ namespace TodoList.WebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
+
+            builder.Services.AddTodoListContext(builder.Configuration);
+            builder.Services.RegisterCustomServices(builder.Configuration);
+            builder.Services.AddAutoMapper();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
