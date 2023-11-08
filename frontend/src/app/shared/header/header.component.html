@@ -1,0 +1,9 @@
+<div>
+    <mat-toolbar>
+        <span>Todo List</span>
+        <div class="navigation" *ngIf="isAuthorized">
+            <p class="username">{{username}}</p>
+            <button mat-stroked-button color="primary" (click)="logout()">Logout</button>
+        </div>
+    </mat-toolbar>
+</div>

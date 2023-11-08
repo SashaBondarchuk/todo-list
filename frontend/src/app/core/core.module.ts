@@ -1,10 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { BaseComponent } from './base/base.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { SharedModule } from '../shared/shared.module';
+import { RequestInterceptor } from './interceptors/request.interceptor';
 
 @NgModule({
-    declarations: [],
+    declarations: [
+        BaseComponent
+    ],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
+    ],
     imports: [
-        CommonModule
+        HttpClientModule, SharedModule
     ]
 })
 export class CoreModule { }

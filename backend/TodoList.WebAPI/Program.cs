@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using TodoList.Common.Auth;
+using TodoList.WebAPI.Auth;
 using TodoList.WebAPI.Extensions;
 
 namespace TodoList.WebAPI
@@ -13,11 +14,14 @@ namespace TodoList.WebAPI
             builder.Services.AddControllers();
 
             builder.Services.AddTodoListContext(builder.Configuration);
-            builder.Services.RegisterCustomServices(builder.Configuration);
+            builder.Services.RegisterCustomServices();
             builder.Services.AddAutoMapper();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAuthentication()
+               .AddScheme<AuthenticationSchemeOptions, BasicAuthHandler>(BasicAuthDefaults.AuthenticationScheme, null);
 
             var app = builder.Build();
 
@@ -26,6 +30,11 @@ namespace TodoList.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors(opt => opt
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
 
             app.UseHttpsRedirection();
 
