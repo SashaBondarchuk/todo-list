@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CustomHttpService {
-    private baseUrl = 'http://localhost:7056';
+    private baseUrl = 'https://localhost:7056/api';
 
     public headers = new HttpHeaders();
 
@@ -12,18 +12,6 @@ export class CustomHttpService {
 
     private getHeaders(): HttpHeaders {
         return this.headers;
-    }
-
-    private getHeader(key: string): string {
-        return this.headers.get(key) as string;
-    }
-
-    private setHeader(key: string, value: string): void {
-        this.headers = this.headers.set(key, value);
-    }
-
-    private deleteHeader(key: string): void {
-        this.headers = this.headers.delete(key);
     }
 
     public getRequest<T>(url: string, httpParams?: HttpParams): Observable<T> {

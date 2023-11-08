@@ -6,6 +6,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -13,10 +16,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     ],
     imports: [
         CommonModule,
-        MatButtonModule,
-        MatCardModule,
-        MatInputModule,
-        MatToolbarModule
+        MatToolbarModule,
+        MatButtonModule
     ],
     exports: [
         RouterModule,
@@ -24,7 +25,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         MatButtonModule,
         MatInputModule,
         MatCardModule,
-        HeaderComponent
+        HeaderComponent,
+        MatListModule,
+        MatCheckboxModule,
+        MatButtonModule,
+        MatCardModule,
+        MatInputModule,
+        MatIconModule
     ]
 })
 export class SharedModule { }

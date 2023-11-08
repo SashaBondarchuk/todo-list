@@ -1,0 +1,16 @@
+mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation {
+    display: flex;
+    gap: 15px;
+}
+
+.username {
+    font-size: 15px;
+    color: rgb(83, 83, 83);
+    border-right: 2px solid #ccc;
+    padding: 0 15px;
+}
