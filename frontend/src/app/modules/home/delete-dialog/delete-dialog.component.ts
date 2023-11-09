@@ -8,6 +8,7 @@ import { TaskService } from 'src/app/core/services/task.service';
 @Component({
     selector: 'app-delete-dialog',
     templateUrl: './delete-dialog.component.html',
+    styleUrls: ['./delete-dialog.component.scss']
 })
 export class DeleteDialogComponent extends BaseComponent implements OnInit {
     title: string = '';

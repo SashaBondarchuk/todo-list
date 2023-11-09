@@ -51,7 +51,7 @@ export class LoginComponent extends BaseComponent {
             .subscribe({
                 next: (response: IUser) => {
                     this.authService.setUserData(username, password);
-                    this.router.navigate(['/home']);
+                    this.router.navigate(['']);
                     this.toastrService.success(`Welcome, ${response.username}!`);
                 },
                 error: () => {                   

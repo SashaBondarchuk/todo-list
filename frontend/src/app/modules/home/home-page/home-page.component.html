@@ -1,6 +1,6 @@
 <div class="container">
     <mat-card-actions>
-        <button mat-stroked-button color="primary" class="add-btn">Add Task</button>
+        <button mat-stroked-button color="primary" class="add-btn" (click)="onAddTask()">Add Task</button>
     </mat-card-actions>
 
     <mat-card>
@@ -9,14 +9,14 @@
                 <mat-list>
                     <mat-list-item *ngFor="let task of tasks">
                         <div class="list-item">
-                            <mat-checkbox [checked]="task.isCompleted">
-                                <div class="task-info">
+                            <mat-checkbox [checked]="task.isCompleted" (change)="onCheckboxChange(task)">
+                                <div class="task-info" [style.color]="task.isCompleted ? 'grey' : 'black'">
                                     <span class="title">{{task.title}}</span>
                                     <span class="description">{{task.description}}</span>
                                 </div>
                             </mat-checkbox>
                             <div class="actions">
-                                <button mat-icon-button aria-label="Edit task" (click)="onEdit(task)">
+                                <button mat-icon-button aria-label="Edit task" (click)="onEditTask(task)">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                                 <button mat-icon-button color="warn" aria-label="Delete task" (click)="onDelete(task)">

@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatCardModule,
         MatInputModule,
         MatIconModule,
-        MatDialogModule
+        MatDialogModule,
+        ReactiveFormsModule
     ]
 })
 export class SharedModule { }

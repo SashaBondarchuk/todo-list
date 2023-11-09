@@ -55,7 +55,7 @@ export class RegisterComponent extends BaseComponent {
             .subscribe({
                 next: (user: IUser) => {
                     this.authService.setUserData(username, password);
-                    this.router.navigate(['/home']);
+                    this.router.navigate(['']);
                     this.toastrService.success(`Welcome, ${user.username}!`);
                 },
                 error: () => {

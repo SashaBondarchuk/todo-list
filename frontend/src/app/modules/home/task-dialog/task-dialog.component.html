@@ -1,0 +1,15 @@
+<mat-dialog-content>
+    <form [formGroup]="form" class="form">
+        <mat-form-field>
+            <input matInput placeholder="Title" formControlName="title">
+        </mat-form-field>
+        <mat-form-field>
+            <textarea matInput placeholder="Description" formControlName="description"></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-stroked-button color="warn" (click)="onCancel()">Cancel</button>
+    <button mat-stroked-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

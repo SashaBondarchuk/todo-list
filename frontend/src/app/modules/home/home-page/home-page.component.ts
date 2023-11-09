@@ -3,8 +3,10 @@ import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs';
 import { BaseComponent } from 'src/app/core/base/base.component';
 import { DeleteDialogService } from 'src/app/core/services/delete-dialog.service';
+import { TaskDialogService } from 'src/app/core/services/task-dialog.service';
 import { TaskService } from 'src/app/core/services/task.service';
 import { ITask } from 'src/app/shared/models/task/ITask';
+import { IUpdateTask } from 'src/app/shared/models/task/IUpdateTask';
 
 @Component({
     selector: 'app-home-page',
@@ -17,7 +19,8 @@ export class HomePageComponent extends BaseComponent {
     constructor(
         private taskService: TaskService,
         private toastrService: ToastrService,
-        private deleteDialogService: DeleteDialogService) {
+        private deleteDialogService: DeleteDialogService,
+        private taskDialogService: TaskDialogService) {
         super();
     }
 
@@ -38,8 +41,35 @@ export class HomePageComponent extends BaseComponent {
             });
     }
 
-    onEdit(task: ITask) {
+    onAddTask() {
+        this.taskDialogService.openCreateTask().afterClosed().subscribe((result: ITask) => {
+            if (result) {
+                this.tasks.push(result);
+            }
+        });
+    }
 
+    onCheckboxChange(task: ITask) {
+        const taskToUpdate: IUpdateTask = {
+            ...task,
+            isCompleted: !task.isCompleted,
+        };
+
+        this.taskService.editTask(taskToUpdate)
+            .subscribe((updatedTask) => {
+                let task = this.tasks.find(t => t.id === updatedTask.id)!;
+                task.isCompleted = updatedTask.isCompleted;
+            });
+    }
+
+    onEditTask(task: ITask) {
+        this.taskDialogService.openEditTask(task).afterClosed().subscribe((result: ITask) => {
+            if (result) {
+                let task = this.tasks.find(t => t.id === result.id)!;
+                task.title = result.title;
+                task.description = result.description;
+            }
+        });
     }
 
     onDelete(task: ITask) {
