@@ -9,6 +9,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -17,7 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
     imports: [
         CommonModule,
         MatToolbarModule,
-        MatButtonModule
+        MatButtonModule,
     ],
     exports: [
         RouterModule,
@@ -31,7 +33,9 @@ import { MatIconModule } from '@angular/material/icon';
         MatButtonModule,
         MatCardModule,
         MatInputModule,
-        MatIconModule
+        MatIconModule,
+        MatDialogModule,
+        ReactiveFormsModule
     ]
 })
 export class SharedModule { }

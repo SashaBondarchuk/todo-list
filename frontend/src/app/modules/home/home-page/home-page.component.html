@@ -1,0 +1,33 @@
+<div class="container">
+    <mat-card-actions>
+        <button mat-stroked-button color="primary" class="add-btn" (click)="onAddTask()">Add Task</button>
+    </mat-card-actions>
+
+    <mat-card>
+        <mat-card-content>
+            <mat-list>
+                <mat-list>
+                    <mat-list-item *ngFor="let task of tasks">
+                        <div class="list-item">
+                            <mat-checkbox [checked]="task.isCompleted" (change)="onCheckboxChange(task)">
+                                <div class="task-info" [style.color]="task.isCompleted ? 'grey' : 'black'">
+                                    <span class="title">{{task.title}}</span>
+                                    <span class="description">{{task.description}}</span>
+                                </div>
+                            </mat-checkbox>
+                            <div class="actions">
+                                <button mat-icon-button aria-label="Edit task" (click)="onEditTask(task)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" aria-label="Delete task" (click)="onDelete(task)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </mat-list-item>
+                    <div *ngIf="tasks.length === 0" class="tasks-empty">You don't have any tasks</div>
+                </mat-list>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>

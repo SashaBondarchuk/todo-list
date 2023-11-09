@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+    {{content}}
+</div>
+<div mat-dialog-actions class="actions">
+    <button mat-stroked-button cdkFocusInitial (click)="close()">Back</button>
+    <button mat-button color="basic" (click)="deleteTask()">Yes</button>
+</div>
