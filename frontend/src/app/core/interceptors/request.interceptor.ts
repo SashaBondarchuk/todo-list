@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService) { }
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         const userData = this.authService.getUserData();
-        
+
         if (!userData) {
             return next.handle(request);
         }

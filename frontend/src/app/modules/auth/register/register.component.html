@@ -8,7 +8,7 @@
                         (blur)="onTouched('email')" />
                 </mat-form-field>
             </p>
-            
+
             <p>
                 <mat-form-field>
                     <input type="text" matInput placeholder="Username" formControlName="username"
@@ -30,9 +30,7 @@
                 </mat-form-field>
             </p>
 
-            <p *ngIf="error" class="error">
-                {{ error }}
-            </p>
+            <p *ngIf="error" class="error"> {{ error }} </p>
 
             <div class="buttons">
                 <p class="signup-link">
