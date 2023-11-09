@@ -7,6 +7,7 @@ import { IUserLogin } from 'src/app/shared/models/user/IUserLogin';
 import { takeUntil } from 'rxjs';
 import { BaseComponent } from 'src/app/core/base/base.component';
 import { IUser } from 'src/app/shared/models/user/IUser';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-login',
@@ -25,7 +26,11 @@ export class LoginComponent extends BaseComponent {
 
     @Output() submitEM = new EventEmitter();
 
-    constructor(private userService: UserService, private authService: AuthService, private router: Router) {
+    constructor(
+        private userService: UserService,
+        private authService: AuthService,
+        private router: Router,
+        private toastrService: ToastrService) {
         super();
     }
 
@@ -47,9 +52,10 @@ export class LoginComponent extends BaseComponent {
                 next: (response: IUser) => {
                     this.authService.setUserData(username, password);
                     this.router.navigate(['/home']);
+                    this.toastrService.success(`Welcome, ${response.username}!`);
                 },
-                error: (error) => {
-                    console.error('Error creating user:', error);
+                error: () => {                   
+                    this.toastrService.error('Error while login, try again');
                 }
             });
 

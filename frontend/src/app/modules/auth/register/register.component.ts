@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { takeUntil } from 'rxjs';
 import { BaseComponent } from 'src/app/core/base/base.component';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -31,7 +32,8 @@ export class RegisterComponent extends BaseComponent {
     constructor(
         private authService: AuthService,
         private userService: UserService,
-        private router: Router) 
+        private router: Router,
+        private toastrService: ToastrService) 
     {
         super();
     }
@@ -51,12 +53,13 @@ export class RegisterComponent extends BaseComponent {
         this.userService.createUser(newUser)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe({
-                next: (response: IUser) => {
+                next: (user: IUser) => {
                     this.authService.setUserData(username, password);
                     this.router.navigate(['/home']);
+                    this.toastrService.success(`Welcome, ${user.username}!`);
                 },
-                error: (error) => {
-                    console.error('Error creating user:', error);
+                error: () => {
+                    this.toastrService.error('Something went wrong. Try again');
                 }
             });
 
