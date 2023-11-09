@@ -54,8 +54,8 @@ export class LoginComponent extends BaseComponent {
                     this.router.navigate(['']);
                     this.toastrService.success(`Welcome, ${response.username}!`);
                 },
-                error: () => {                   
-                    this.toastrService.error('Error while login, try again');
+                error: (error) => {
+                    this.toastrService.error(error.error.error);
                 }
             });
 

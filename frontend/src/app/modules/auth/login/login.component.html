@@ -16,9 +16,7 @@
                 </mat-form-field>
             </p>
 
-            <p *ngIf="error" class="error">
-                {{ error }}
-            </p>
+            <p *ngIf="error" class="error"> {{ error }} </p>
 
             <div class="buttons">
                 <p class="signup-link">
@@ -26,9 +24,7 @@
                 </p>
 
                 <div class="button">
-                    <button type="submit" mat-stroked-button [disabled]="formInvalid">
-                        Login
-                    </button>
+                    <button type="submit" mat-stroked-button [disabled]="formInvalid">Login</button>
                 </div>
             </div>
         </form>

@@ -4,37 +4,45 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class AuthService {
-    private userData: string | null = null;
+    private readonly userDataKey = 'userData';
+    private readonly usernameKey = 'username';
 
+    private userData: string | null = null;
     public username: string | null = null;
 
     constructor() {
-        this.userData = localStorage.getItem('userData');
-        this.username = localStorage.getItem('username');
+        this.loadUserDataFromLocalStorage();
     }
 
-    isAuthorized() {      
+    isAuthorized(): boolean {
         return !!this.userData;
-    };
+    }
 
     getUserData(): string | null {
+        this.loadUserDataFromLocalStorage();
         return this.userData;
-    };
-
-    setUserData(username: string, password: string) {
-        const userData = btoa(`${username}:${password}`);
-
-        localStorage.setItem('userData', userData);
-        localStorage.setItem('username', username);
-
-        this.userData = userData;
-        this.username = username;
     }
 
-    clearUserData() {       
-        localStorage.removeItem('userData');
+    setUserData(username: string, password: string): void {
+        const userData = btoa(`${username}:${password}`);
+        localStorage.setItem(this.userDataKey, userData);
+        localStorage.setItem(this.usernameKey, username);
+        this.updateUserData(userData, username);
+    }
 
-        this.userData = null;
-        this.username = null;
+    clearUserData(): void {
+        localStorage.removeItem(this.userDataKey);
+        localStorage.removeItem(this.usernameKey);
+        this.updateUserData(null, null);
+    }
+
+    private loadUserDataFromLocalStorage(): void {
+        this.userData = localStorage.getItem(this.userDataKey);
+        this.username = localStorage.getItem(this.usernameKey);
+    }
+
+    private updateUserData(userData: string | null, username: string | null): void {
+        this.userData = userData;
+        this.username = username;
     }
 }

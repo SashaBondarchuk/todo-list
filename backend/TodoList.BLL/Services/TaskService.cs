@@ -4,6 +4,7 @@ using TodoList.BLL.Interfaces;
 using TodoList.BLL.Services.Abstract;
 using TodoList.Common.Auth.Abstractions;
 using TodoList.Common.DTO.Task;
+using TodoList.Common.Exceptions;
 using TodoList.DAL.Context;
 
 namespace TodoList.BLL.Services
@@ -42,12 +43,12 @@ namespace TodoList.BLL.Services
         public async Task<TaskDto> UpdateTaskAsync(TaskUpdateDto taskUpdateDto)
         {
             var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == taskUpdateDto.Id)
-                       ?? throw new InvalidOperationException("Task was not found");
+                       ?? throw new NotFoundException(nameof(DAL.Entities.Task));
 
             var uid = _userIdGetter.CurrentUserId;
             if (task.UserId != uid)
             {
-                throw new InvalidOperationException("You are not allowed to delete this task");
+                throw new BadOperationException("You are not allowed to edit this task");
             }
 
             task.Id = taskUpdateDto.Id;
@@ -64,12 +65,12 @@ namespace TodoList.BLL.Services
         public async Task DeleteAsync(int taskId)
         {
             var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == taskId)
-                ?? throw new InvalidOperationException("Task was not found");
+                ?? throw new NotFoundException(nameof(DAL.Entities.Task));
 
             var uid = _userIdGetter.CurrentUserId;
             if (task.UserId != uid)
             {
-                throw new InvalidOperationException("You are not allowed to delete this task");
+                throw new BadOperationException("You are not allowed to delete this task");
             }
 
             _context.Tasks.Remove(task);

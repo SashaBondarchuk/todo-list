@@ -1,10 +1,11 @@
-@import 'ngx-toastr/toastr';
+@import "ngx-toastr/toastr";
 
 * {
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     display: flex;
     flex-direction: column;

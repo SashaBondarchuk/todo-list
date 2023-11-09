@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TaskService } from 'src/app/core/services/task.service';
 import { ITask } from 'src/app/shared/models/task/ITask';
-import { IUpdateTask } from 'src/app/shared/models/task/IUpdateTask';
-import { INewTask } from 'src/app/shared/models/task/INewTask';
 
 @Component({
     selector: 'app-task-dialog',
