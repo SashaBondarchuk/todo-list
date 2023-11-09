@@ -37,7 +37,7 @@ export class DeleteDialogComponent extends BaseComponent implements OnInit {
                     this.dialogRef.close(this.data.entity.id);
                     this.taskDeleted.emit(this.data.entity.id);
                 },
-                error: () => this.toastrService.error("Error while deleting task")
+                error: (error) => this.toastrService.error("Error while deleting task: " + error.error.error)
             });
     }
 

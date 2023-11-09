@@ -56,19 +56,29 @@ export class HomePageComponent extends BaseComponent {
         };
 
         this.taskService.editTask(taskToUpdate)
-            .subscribe((updatedTask) => {
-                let task = this.tasks.find(t => t.id === updatedTask.id)!;
-                task.isCompleted = updatedTask.isCompleted;
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe({
+                next: (updatedTask) => {
+                    let task = this.tasks.find(t => t.id === updatedTask.id)!;
+                    task.isCompleted = updatedTask.isCompleted;
+                },
+                error: (error) => this.toastrService.error("Error while editing task: " + error.error.error)
             });
     }
 
     onEditTask(task: ITask) {
-        this.taskDialogService.openEditTask(task).afterClosed().subscribe((result: ITask) => {
-            if (result) {
-                let task = this.tasks.find(t => t.id === result.id)!;
-                task.title = result.title;
-                task.description = result.description;
-            }
+        this.taskDialogService.openEditTask(task).afterClosed()
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+            next: (result: ITask) => {
+                let editedTask = this.tasks.find(t => t.id === result.id);
+                if (editedTask) {
+                    editedTask.title = result.title;
+                    editedTask.description = result.description;
+                }
+            },
+            error: (error) => this.toastrService.error("Error while editing task: " + error.error.error)
+
         });
     }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -20,8 +20,6 @@ export class RegisterComponent extends BaseComponent {
 
     error!: string | null;
 
-    @Output() submitEM = new EventEmitter();
-
     form: FormGroup = new FormGroup({
         email: new FormControl('', [Validators.required]),
         username: new FormControl('', [Validators.required]),
@@ -33,22 +31,17 @@ export class RegisterComponent extends BaseComponent {
         private authService: AuthService,
         private userService: UserService,
         private router: Router,
-        private toastrService: ToastrService) 
-    {
+        private toastrService: ToastrService) {
         super();
     }
 
     onSubmit() {
-        if (!this.form.valid) {
+        if (this.form.invalid) {
             return;
         }
 
         const { username, password, email } = this.form.value;
-        const newUser: INewUser = {
-            username: username,
-            password: password,
-            email: email
-        };
+        const newUser: INewUser = { username, password, email };
 
         this.userService.createUser(newUser)
             .pipe(takeUntil(this.unsubscribe$))
@@ -58,30 +51,21 @@ export class RegisterComponent extends BaseComponent {
                     this.router.navigate(['']);
                     this.toastrService.success(`Welcome, ${user.username}!`);
                 },
-                error: () => {
-                    this.toastrService.error('Something went wrong. Try again');
-                }
+                error: (error) => this.toastrService.error(error.error.error),
             });
 
-        this.submitEM.emit(this.form.value);
-        this.error = '';
-        this.formInvalid = false;
+        this.resetFormState();
     }
 
     onTouched(field: string) {
-        if (this.form.get(field)?.touched && !this.form.get(field)?.valid) {
-            this.formInvalid = true;
-        } else {
-            this.formInvalid = false;
-        }
+        const isPasswordMatch = this.form.get('password')?.value === this.form.get('confirmPassword')?.value;
 
-        if (this.form.get('password')?.value === this.form.get('confirmPassword')?.value) {
-            this.submitEM.emit(this.form.value);
-            this.error = '';
-            this.formInvalid = false;
-        } else {
-            this.formInvalid = true;
-            this.error = 'Passwords do not match';
-        }
+        this.formInvalid = this.form.get(field)?.touched && !this.form.get(field)?.valid || !isPasswordMatch;
+        this.error = isPasswordMatch ? '' : 'Passwords do not match';
+    }
+
+    private resetFormState() {
+        this.error = '';
+        this.formInvalid = false;
     }
 }
