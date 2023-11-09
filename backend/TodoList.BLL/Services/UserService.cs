@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using TodoList.BLL.Interfaces;
 using TodoList.BLL.Services.Abstract;
-using TodoList.Common.Auth.Abstractions;
 using TodoList.Common.Auth.Helpers;
 using TodoList.Common.DTO.User;
+using TodoList.Common.Exceptions;
 using TodoList.DAL.Context;
 using TodoList.DAL.Entities;
 
@@ -12,11 +12,8 @@ namespace TodoList.BLL.Services
 {
     public class UserService : BaseService, IUserService
     {
-        private readonly IUserIdSetter _userIdSetter;
-
-        public UserService(TodoListDbContext context, IMapper mapper, IUserIdSetter userIdSetter) : base(context, mapper)
+        public UserService(TodoListDbContext context, IMapper mapper) : base(context, mapper)
         {
-            _userIdSetter = userIdSetter;
         }
 
         public async Task<UserDto> RegisterAsync(NewUserDto newUserDto)
@@ -24,14 +21,14 @@ namespace TodoList.BLL.Services
             var user = _mapper.Map<User>(newUserDto);
             var users = _context.Users.ToList();
 
-            if (users.Any(u => u.Username == user.Username))
+            if (users.Exists(u => u.Username == user.Username))
             {
-                throw new InvalidOperationException("User with a such username exists");
+                throw new BadOperationException("User with such username already exists");
             }
 
-            if (users.Any(u => u.Email == user.Email))
+            if (users.Exists(u => u.Email == user.Email))
             {
-                throw new InvalidOperationException("User with an email exists");
+                throw new BadOperationException("User with such email already exists");
             }
 
             user.PasswordHash = PasswordHasher.HashPassword(newUserDto.Password);
@@ -44,11 +41,11 @@ namespace TodoList.BLL.Services
         public async Task<UserDto> LoginAsync(UserLoginDto userLoginDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userLoginDto.Username)
-                ?? throw new InvalidOperationException("User was not found");
+                ?? throw new NotFoundException(nameof(User));
 
             if (!PasswordHasher.VerifyPassword(user.PasswordHash, userLoginDto.Password))
             {
-                throw new InvalidOperationException("Authentication failed");
+                throw new InvalidUsernameOrPasswordException("Invalid username or password");
             }
 
             return _mapper.Map<UserDto>(user);

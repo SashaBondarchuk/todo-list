@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
+using Newtonsoft.Json.Converters;
 using TodoList.Common.Auth;
+using TodoList.Common.Filters;
+using TodoList.Common.GlobalMiddlewares;
 using TodoList.WebAPI.Auth;
 using TodoList.WebAPI.Extensions;
 
@@ -11,7 +14,8 @@ namespace TodoList.WebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options => options.Filters.Add<CustomExceptionFilterAttribute>())
+                .AddNewtonsoftJson(x => x.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
             builder.Services.AddTodoListContext(builder.Configuration);
             builder.Services.RegisterCustomServices();
@@ -30,6 +34,8 @@ namespace TodoList.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<GenericExceptionHandlerMiddleware>();
 
             app.UseCors(opt => opt
                 .AllowAnyHeader()

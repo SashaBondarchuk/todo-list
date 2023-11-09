@@ -9,6 +9,7 @@ namespace TodoList.BLL.MappingProfiles
         public TaskProfile()
         {
             CreateMap<Task, TaskDto>();
+
             CreateMap<TaskCreateDto, Task>();
         }
     }
